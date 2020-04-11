@@ -1,0 +1,40 @@
+Typescript:
+
+tsconfig.json:
+
+//** any subdirs
+"include": [**/*.ts]
+//any .ts in dir and or sub dirs
+
+Starting a simple typescript project:
+-use npm init to sett up package.json
+-open with vscode, open vsc term,
+
+Dependencies
+
+npm i -D typescript
+npm i -D nodemon
+npm i -D concurrently
+
+//Install typescript and nodemon as dependencies.
+
+-npx tsc --init
+//creates a tsconfig.json
+
+In package.json
+"scripts": {
+    "build" : "tsc"
+  }
+then you run:
+npm run build
+then you run:
+node dist/index.js
+
+npx nodemon -w dist -q dist/index.js
+//watches dist dir for changes then restarts
+//-w watch -q quite mode
+
+//nodemon checks for the changes in the .js not the.ts
+
+npx concurrently "tsc -w" "nodemon -w dist -q dist/index.js"
+//runs both concurrently

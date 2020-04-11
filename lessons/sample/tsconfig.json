@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        //outDir where to store compilation.
+        "outDir": "dist"
+    },
+    // ** any subdirs 
+    "include": ["**/*.ts"]
+    // all .ts in this or sub dirs
+}
