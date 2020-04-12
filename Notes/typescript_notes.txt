@@ -24,6 +24,7 @@ npm i -D concurrently
 In package.json
 "scripts": {
     "build" : "tsc"
+	"dev" : "./node_modules/.bin/concurrently -k -n COMPILER,NODEMON -c yellow,blue \"tsc -w\" \"npx nodemon -w dist -q dist/index.js\""
   }
 then you run:
 npm run build
@@ -36,5 +37,8 @@ npx nodemon -w dist -q dist/index.js
 
 //nodemon checks for the changes in the .js not the.ts
 
-npx concurrently "tsc -w" "nodemon -w dist -q dist/index.js"
+./node_modules/.bin/concurrently -k -n COMPILER,NODEMON -c yellow,blue "tsc -w" "npx nodemon -w dist -q dist/index.js"
 //runs both concurrently
+//-n allows to name processes
+//-c set colours
+//-k if 1 process fails kill the other
