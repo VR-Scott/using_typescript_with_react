@@ -8,12 +8,16 @@ interface KettleConstructor {
 
 class TeaKettle implements Kettle {
     volume: number;
-    constructor(volume: number) {}
+    constructor(volume: number) {
+        this.volume = volume;
+    }
 }
 
 class ElectricKettle implements Kettle {
     volume: number;
-    constructor(volume: number) {}
+    constructor(volume: number) {
+        this.volume = volume;
+    }
 }
 
 function kettleFactory(KettleClass: KettleConstructor) {
