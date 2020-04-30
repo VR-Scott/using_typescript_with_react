@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/react": "^16.9.34",
     "concurrently": "^5.1.0",
     "nodemon": "^2.0.3",
     "typescript": "^3.8.3"
