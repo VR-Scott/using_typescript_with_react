@@ -1,0 +1,20 @@
+{
+  "name": "simple_typescript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "./node_modules/.bin/concurrently -k -n COMPILER,NODEMON -c yellow,blue \"tsc -w\" \"npx nodemon -w dist -q dist/index.js\""
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^5.1.0",
+    "nodemon": "^2.0.3",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "apollo-client": "^2.6.8"
+  }
+}
