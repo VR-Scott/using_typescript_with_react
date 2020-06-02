@@ -1,0 +1,31 @@
+SideEffects:
+    -fetch and mod data.
+    -subscribe to DOM events.
+    -mod DOM Manually.
+
+useEffect hook manages SideEffects:
+-reg Callback:
+    -runs SideEffects.
+-react runs Callback after each render.
+-guarantees DOM updated by time runs Callback.
+
+useEffect mimics:{
+    -componentDidMount
+    -componentDidUpdate
+    -componentWillUnmount
+}
+
+2 Common kinds of SideEffects:
+    1.Need a cleanup eg.{
+        When a comp mounts:
+            document.addEventListener('mousedown',  ...)
+        
+        When comp unmounts:
+            document.removeEventListener('mousedown',  ...)
+    }
+    2.Don't need a cleanup eg. {
+        When comp mounts:
+            document.title = "You've got new messages"
+        
+        Nothing bad will happen if we don't cleanup this SideEffect (eg. no mem leak)
+    }
