@@ -554,3 +554,197 @@ return muffinsLoading ? (
 // npm start
 
 // in the browser you should see the list of muffins which is now, fetched from fake API server.
+
+// MULTIPLE REDUCERS:
+
+// Usually, in a large app, state won't be that simple.
+// It will look like a huge tree of data.
+
+// The reducer FUNCT will become bloated.
+
+// So, it's a good idea to split the rducer into multiple smaller reducers
+// where each reducer handle only a part of the state.
+
+// e.g. in order to handle the state from the pic above,
+// it would be a good idea to create 3 reducers:
+
+const muffinsReducer = (state = initialMuffinState, action) => {
+    // ...
+};
+
+const notificationsReducer = (state = initialNotificationsState, action) => {
+    // ...
+};
+
+const cartReducer = (state = initialCartState, action) => {
+    // ...
+};
+
+// & combine them using the utility FUNCT called combineReducers:
+
+const rootReducer = combineReducers({
+    muffins: muffinsReducer,
+    notifications: notificationsReducer,
+    cart: cartReducer,
+});
+
+const store = createStore(rootReducer);
+
+// combineReducers creates a root reducer FUNCT which calls each sub reducer
+// when the action is dispatched & combines the parts of the state they return
+// into a single state OBJ:
+
+{
+    muffins: ...,
+    notifications: ...,
+    cart: ...
+}
+
+// Combining reducers makes it easy to modularize the reducer logic.
+
+// FEAT FOLDER & DUCKS:
+
+// Instead of grouping all actions and reducers by the type of code
+// (e.g., all the app's actions in actions.js & all reducers in reducers.js),
+// we could group them by FEAT.
+
+// Let's say there are 2 FEATs: "users" & "notifications".
+// We could keep their actions and reducers in separate folders. e.g.:
+
+// redux/
+//      users/
+//          actions.js
+//          reducers.js
+//      notifications/
+//          actions.js
+//          reducers.js
+//      store.js
+
+
+// DUCKS:
+
+// The "ducks" pattern says that we should keep all Redux logic
+// (actions, reducers,selectors) for a specific FEAT in it's own file. e.g. :
+
+// redux/
+//      users.js
+//      notifications.js
+//      store.js
+
+// USING THE "DUCKS" PATTERN IN OUR EXAMPLE APP:
+
+// In the app we've got DIFF Redux functionality around muffins.
+// We can group this FUNCTality into a duck.
+// In other words, let's jsut move everything related ro muffins into a JS file
+// & call it src/redux/muffins.js.
+
+// Let's move the actions, selectors and the reducers to this file:
+
+export const likeMuffin = (muffinId) => ({
+    type: 'muffins/like',
+    payload: { id: muffinId },
+});
+
+export const loadMuffins = () => async (dispatch) => {
+    dispatch({
+        type: 'muffin/load_request',
+    });
+
+    try {
+        const response = await fetch('http://localhost:3001/muffins');
+        const data = await response.json();
+
+        dispatch({
+            type: 'muffins/load_success',
+            payload: {
+                muffins: data,
+            },
+        });
+    } catch (e) {
+        dispatch({
+            type: 'muffins/load_failure',
+            error: 'Failed to load muffins.',
+        });
+    }
+};
+
+export const selectMuffinsArray = (state) => state.muffins;
+export const selectMuffinsLoading = (state) => state.muffinsLoading;
+export const selectMuffinsLoadError = (state) => state.error;
+
+const initialState = {
+    muffins: [],
+};
+
+const reducer = (state = initialState, action) => {
+    switch (action.type) {
+        case 'muffin/like':
+            const { id } = action.payload;
+            return {
+                ...state,
+                muffins: state.muffins.map((muffin) => {
+                    if (muffin.id === id) {
+                        return { ...muffin, like: muffin.likes + 1 };
+                    }
+                    return muffin;
+                });
+            };
+
+        case 'muffin/load_request':
+            return { ...state, muffinsLoading: true };
+
+        case 'muffin/load_success':
+            const { muffins } = action.payload;
+            return { ...state, muffinsLoading: false, muffins };
+
+        case 'muffin/load_failure':
+            const { error } = action;
+            return { ...state, muffinsLoading: false, error };
+        
+        default:
+            return state;
+    }
+};
+
+export default reducer;
+
+// Now, the app's state looks like this:
+
+{
+     muffins: {
+         muffins: [],
+         muffinsLoading: boolean,
+         error: string
+     }
+}
+
+// Since the structure of the state has changed, to make app work,
+// we should update the parts of the code where we read the state.
+// Luckily, we use selector FUNCTs to select parts of the state OBJ
+// instead of working w/ the state OBJ directly.
+// So, we only have to update the selector FUNCTs:
+
+// file: src/redux/muffins.js
+export const selectMuffinsState = (rootState) => rootState.muffins;
+
+export const selectMuffinsArray = (rootState) =>
+selectMuffinsState(rootState).muffins;
+
+export const selectMuffinsLoading = (rootState) =>
+selectMuffinsState(rootState).muffinsLoading;
+
+export const selectMuffinsLoadError = (rootState) =>
+selectMuffinsState(rootState).error;
+
+// & finally, let's update the import statements:
+
+// file: src/components/Muffins/Muffins.js
+import {
+    selectMuffinsArray,
+    selectMuffinsLoading,
+    selectMuffinsLoadError,
+} from '../../redux/muffins';
+import { likeMuffin, loadMuffins } from '../../redux/muffins';
+
+// That's it we used the "ducks" pattern to move the Redux FUNCTality around
+// managing the muffins state into a single file.
