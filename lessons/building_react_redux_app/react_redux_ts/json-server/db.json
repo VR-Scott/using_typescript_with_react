@@ -1,0 +1,35 @@
+{
+  "events": [
+    {
+      "id": 1,
+      "title": "Jogging",
+      "_comments": [
+        "Dates will be in STR in ISO FORMAT new Date().toISOString)",
+        "ISO uses utc which is denoted by the Z",
+        "e.g. 2020-60-27T13:16:07.500Z",
+        "to run: npx json-server --watch json-server/db.json --port 3001",
+        "bc 3000 is for front-end server",
+        "to start both servers w/ 1 command we need concurrently",
+        "To install: npm i -D concurrently",
+        "use concurrently to run both processes: ",
+        "npx concurrently -k \"json-server --watch json-server/db.json --port 3001\" \"npm start\"",
+        "-k if 1 process dies kill other process too."
+      ],
+      "_comments_on_commands": [
+        "to GET: curl http://localhost:3001/events",
+        "to POST: curl -X POST -H \"Content-Type: application/json\" -d '{\"title\": \"Learning TypeScript\", \"dateStart\": \"2020-60-27T14:17:07.500Z\", \"dateEnd\": \"2020-60-27T14:18:07.500Z\"}' http://localhost:3001/events",
+        "// -H for content type header",
+        "// set to APP JSON BC we send data in JSON format",
+        "// -d option to set data"
+      ],
+      "dateStart": "2020-60-27T13:16:07.500Z",
+      "dateEnd": "2020-60-27T14:16:07.500Z"
+    },
+    {
+      "title": "Learning TypeScript",
+      "dateStart": "2020-60-27T15:00:00.500Z",
+      "dateEnd": "2020-60-27T16:00:00.500Z",
+      "id": 2
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+Install redux and react-redux
+    npm i -S redux react-redux
