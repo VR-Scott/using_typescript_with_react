@@ -1,2 +1,5 @@
 Install redux and react-redux
     npm i -S redux react-redux
+
+Install redux Thunk
+    npm i -S redux-thunk

@@ -22,14 +22,20 @@
         "// set to APP JSON BC we send data in JSON format",
         "// -d option to set data"
       ],
-      "dateStart": "2020-60-27T13:16:07.500Z",
-      "dateEnd": "2020-60-27T14:16:07.500Z"
+      "dateStart": "2020-06-27T13:16:07.500Z",
+      "dateEnd": "2020-06-27T14:16:07.500Z"
     },
     {
-      "title": "Learning TypeScript",
-      "dateStart": "2020-60-27T15:00:00.500Z",
-      "dateEnd": "2020-60-27T16:00:00.500Z",
-      "id": 2
+      "title": "No name",
+      "dateStart": "2020-07-04T12:47:42.670Z",
+      "dateEnd": "2020-07-04T12:47:48.513Z",
+      "id": 3
+    },
+    {
+      "title": "No name",
+      "dateStart": "2020-07-10T07:01:33.734Z",
+      "dateEnd": "2020-07-10T07:01:37.266Z",
+      "id": 5
     }
   ]
 }
