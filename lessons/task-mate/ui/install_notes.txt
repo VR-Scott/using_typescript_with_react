@@ -1,0 +1,7 @@
+INITIALIZE NPM:
+    npm ini
+SAVE INSTALL NEXT, REACT & REACT-DOM:
+    npm i -S next react react-DOM
+INSTALL TS AS DEV DEPENDENCY(DON'T NEED IN PROD, IN PROD RUN COMPILED JS CODE)
+//  also need the types for react and react-dom and node and specify version of node
+    npm i -D typescript @types/react @types/react-dom @types/node@12

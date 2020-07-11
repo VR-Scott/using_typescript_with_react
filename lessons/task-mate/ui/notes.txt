@@ -1,0 +1,12 @@
+Next JS looks for pages in the pages/ DIR
+
+add scripts to package.json
+cp them from NEXT DOCS https://nextjs.org/docs
+    "dev": "next",  //runs app in dev mode
+    "build": "next build", // builds app from sources and stores it in folder called .next
+    "start": "next start" // runs next start, starts app for PROD (build before run start)
+
+run dev script: 
+    npm run dev
+
+next has a type for pages: NextPage import from 'next'
