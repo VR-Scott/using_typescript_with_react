@@ -2,6 +2,7 @@ import { AnyAction, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from './store';
 import { selectDateStart } from './recorder';
+import { type } from 'os';
 
 export interface UserEvent {
   id: number;
@@ -173,6 +174,49 @@ export const deleteUserEvent = (
   }
 };
 
+const UPDATE_REQUEST = 'userEvents/update_request';
+const UPDATE_SUCCESS = 'userEvents/update_success';
+const UPDATE_FAILURE = 'userEvents/update_failure';
+
+interface UpdateRequestAction extends Action<typeof UPDATE_REQUEST> {}
+
+interface UpdateSuccessAction extends Action<typeof UPDATE_SUCCESS> {
+  payload: { event: UserEvent };
+}
+
+interface UpdateFailureAction extends Action<typeof UPDATE_FAILURE> {}
+
+export const updateUserEvent = (
+  event: UserEvent
+): ThunkAction<
+  Promise<void>,
+  RootState,
+  undefined,
+  UpdateRequestAction | UpdateSuccessAction | UpdateFailureAction
+> => async (dispatch) => {
+  dispatch({
+    type: UPDATE_REQUEST,
+  });
+
+  try {
+    const response = await fetch(`http://localhost:3001/events/${event.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(event),
+    });
+    const updatedEvent: UserEvent = await response.json();
+
+    dispatch({ type: UPDATE_SUCCESS, payload: { event: updatedEvent } });
+  } catch (e) {
+    // would normally log the error somewhere.
+    dispatch({
+      type: UPDATE_FAILURE,
+    });
+  }
+};
+
 const selectUserEventsState = (rootState: RootState) => rootState.userEvents;
 
 export const selectUserEventsArray = (rootState: RootState) => {
@@ -187,8 +231,20 @@ const initialState: UserEventsState = {
 
 const userEventReducer = (
   state: UserEventsState = initialState,
-  action: LoadSuccessAction | CreateSuccessAction | DeleteSuccessAction
+  action:
+    | LoadSuccessAction
+    | CreateSuccessAction
+    | DeleteSuccessAction
+    | UpdateSuccessAction
 ) => {
+  // would be better to move each case functionality to a ()
+  // switch (action.type){
+  //  case CREATE_SUCCESS:
+  //    return createSuccessReducer(state, action)
+
+  //    case UPDATE_SUCCESS:
+  //      return updateSuccessReducer(state, action)
+  // }
   switch (action.type) {
     case LOAD_SUCCESS:
       const { events } = action.payload;
@@ -217,6 +273,13 @@ const userEventReducer = (
       };
       delete newState.byIds[id];
       return newState;
+
+    case UPDATE_SUCCESS:
+      const { event: updatedEvent } = action.payload;
+      return {
+        ...state,
+        byIds: { ...state.byIds, [updatedEvent.id]: updatedEvent },
+      };
 
     default:
       return state;
