@@ -1,0 +1,26 @@
+Get DOCS for the tsconfig options:
+    https://www.typescriptlang.org/docs/handbook/compiler-options.html
+
+OPTIONS:
+    "target":
+        signifies ver of JS recieve at end of Compilation.
+        es5: etma script 5 features.
+    "lib":
+        library files AKA TS definition files to be incl. in compilation.
+    "allowJS":
+        Allows us to use JS files in our code.
+    "skipLibCheck":
+        by default TS type checks 3rd party code which most times had been checked by the owners
+        skipping this saves compilation time.
+    "strict":
+        enables a group of options make sure code adhears to guidelines that reduce amount
+        of errors might get during compilation.
+        noImplicitAny
+        strictNullChecks
+    "forceConsistentCasingInFileNames":
+    "noEmit":
+        doesn't save compiled output. (we have false because babel not use it.)
+    "resolveJsonModule":
+        allows us to import json files.
+    
+    
